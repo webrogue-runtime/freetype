@@ -169,8 +169,8 @@
                                 /*       `jmp_buf` is defined as a macro */
                                 /*       on certain platforms            */
 
-#define ft_longjmp     longjmp
-#define ft_setjmp( b ) setjmp( *(ft_jmp_buf*) &(b) ) /* same thing here */
+#define ft_longjmp     printf("ft_longjmp\n"), longjmp
+#define ft_setjmp( b ) 0 /* same thing here */
 
 
   /* The following is only used for debugging purposes, i.e., if   */
