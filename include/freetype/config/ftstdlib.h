@@ -163,14 +163,24 @@
    */
 
 
+#ifdef __wasi__
+#define ft_jmp_buf void*
+__attribute__((unused))
+static void ft_longjmp(ft_jmp_buf buf, int status) {
+  printf("ft_longjmp\n");
+  __builtin_unreachable();
+}
+#define ft_setjmp( b ) 0
+#else
 #include <setjmp.h>
 
 #define ft_jmp_buf     jmp_buf  /* note: this cannot be a typedef since  */
                                 /*       `jmp_buf` is defined as a macro */
                                 /*       on certain platforms            */
 
-#define ft_longjmp     printf("ft_longjmp\n"), longjmp
-#define ft_setjmp( b ) 0 /* same thing here */
+#define ft_longjmp     longjmp
+#define ft_setjmp( b ) setjmp( *(ft_jmp_buf*) &(b) ) /* same thing here */
+#endif
 
 
   /* The following is only used for debugging purposes, i.e., if   */
